@@ -5,15 +5,18 @@ void writeString(char* s);
 void initServo();
 void initSensor();
 
+uint16_t distance;
 
 int main() {
     initServo();
     initUsart();
+    initSensor();
     PORTB |= (1 << PB0) | (1 << PB1);
     writeString("Welkom bij het regeltechniek practicum.");
     sei();
     while(1){
-    OCR1A = 2250;
+    OCR1A = 1500;
+    writeInt(distance);
     }
 }
 void initServo() 
@@ -25,13 +28,13 @@ void initServo()
 }
 
 void initSensor() {
-    ADCSRA |= (1 << ADEN) | (1 << ADATE) | (1 << ADIE);
-    
+    ADMUX |= (1 << REFS0);
+    ADCSRA |= (1 << ADEN) | (1 << ADATE) | (1 << ADIE) | (1 << ADPS2) | (1 << ADSC);  //moet nog op 128 bits
 }
 uint16_t leesSensorWaarde() {
   
 }
 
 ISR(ADC_Vector){
-   
+   distance = ADC;
 }
