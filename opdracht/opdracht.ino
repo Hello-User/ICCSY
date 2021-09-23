@@ -32,9 +32,9 @@ void initSensor() {
     ADCSRA |= (1 << ADEN) | (1 << ADATE) | (1 << ADIE) | (1 << ADPS2) | (1 << ADSC);  //moet nog op 128 bits
 }
 uint16_t leesSensorWaarde() {
-  
+  distance = ADC;
 }
 
 ISR(ADC_Vector){
-   distance = ADC;
+   leesSensorWaarde();
 }
